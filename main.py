@@ -13,7 +13,7 @@ parser.add_argument(
 )
 parser.add_argument(
     '-f',  "--file", type=str,
-    default="Check.csv",
+    default="check.csv",
     help="Check file with all the data. [Default: check.csv]"
 )
 parser.add_argument(

@@ -25,7 +25,7 @@ class CSVSaver():
         try:
             self.df = pd.read_csv(self.filepath, index_col=0)
         except Exception:
-            self.df = pd.DataFrame()
+            self.df = pd.DataFrame(self.schema)
 
     def set_schema(self, header):
         """Configure the schema with the header given."""
