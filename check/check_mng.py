@@ -48,6 +48,33 @@ class CheckManager():
         except KeyboardInterrupt:
             return False
 
+    def check_remove(self, ID):
+        """Check the row removal."""
+        print(
+            "Entry to be removed:\n"
+            f"Index: {ID}\n"
+            "Concept: "
+            f"{self.saver.get_column_value('Concept', ID)}\n"
+            "Value: $"
+            f"{self.saver.get_column_value('Value', ID)}\n"
+        )
+
+        while True:
+            confirm = input("Confirm [y]/n: ")
+
+            if confirm in ["", "Y", "y", "yes", "YES", "Yes"]:
+                self.saver.remove_row(ID)
+                self.saver.save_data()
+
+                self.total_spent = self.saver.get_column_values(
+                    "Value"
+                ).sum()
+
+                break
+
+            elif confirm in ["N", "n", "no", "NO", "No"]:
+                break
+
     def remove_entry(self):
         """Add a new entry."""
         try:
@@ -85,25 +112,7 @@ class CheckManager():
                     continue
 
                 if ID in indexes:
-                    print(
-                        "Entry to be removed:\n"
-                        f"Index: {ID}\n"
-                        "Concept: "
-                        f"{self.saver.get_column_value('Concept', ID)}\n"
-                        "Value: $"
-                        f"{self.saver.get_column_value('Value', ID)}\n"
-                    )
-
-                    while True:
-                        confirm = input("Confirm [y]/n: ")
-
-                        if confirm in ["", "Y", "y", "yes", "YES", "Yes"]:
-                            self.saver.remove_row(ID)
-                            self.saver.save_data()
-                            break
-
-                        elif confirm in ["N", "n", "no", "NO", "No"]:
-                            break
+                    self.check_remove(ID)
 
         except KeyboardInterrupt:
             return
