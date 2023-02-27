@@ -15,6 +15,8 @@ class CheckManager():
             self.check_file, header, delimiter
         )
 
+        self.total_spent = self.saver.get_column_values("Value").sum()
+
     def add_entry(self):
         """Add a new entry."""
         try:
@@ -33,6 +35,11 @@ class CheckManager():
                 if confirm in ["", "Y", "y", "yes", "YES", "Yes"]:
                     self.saver.fill_row([concept, value])
                     self.saver.add_row_and_save()
+
+                    self.total_spent = self.saver.get_column_values(
+                        "Value"
+                    ).sum()
+
                     return True
 
                 elif confirm in ["N", "n", "no", "NO", "No"]:
@@ -58,8 +65,8 @@ class CheckManager():
 
                 for (concept, value, index) in zip(concepts, values, indexes):
                     message += (
-                        " "*6 +
-                        f"{index} | {concept} | ${self.money_print(value)}\n"
+                        " " * 6 +
+                        f"{index} | {concept} | $ {self.money_print(value)}\n"
                     )
 
                 print(message)
@@ -111,25 +118,22 @@ class CheckManager():
         values = self.saver.get_column_values("Value")
 
         message = "Check:\n"
-        total = 0
 
         for (concept, value) in zip(concepts, values):
             l_chk = len(concept) + len(self.money_print(value))
 
-            total += value
-
             message += (
-                f"      {concept} " + "."*(47-l_chk) +
-                f" ${self.money_print(value)}\n"
+                f"      {concept} " + "." * (47 - l_chk) +
+                f" $ {self.money_print(value)}\n"
             )
 
-        message += "     -" + "-"*50 + "-\n"
+        message += "     -" + "-" * 50 + "-\n"
 
-        l_chk = len("Total") + len(self.money_print(total))
+        l_chk = len("Total") + len(self.money_print(self.total_spent))
 
         message += (
-            "      Total " + "."*(47-l_chk) +
-            f" ${self.money_print(total)}\n"
+            "      Total " + "." * (47 - l_chk) +
+            f" $ {self.money_print(self.total_spent)}\n"
         )
 
         print(message)
