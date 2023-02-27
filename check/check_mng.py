@@ -26,7 +26,7 @@ class CheckManager():
             print(
                 "New entry:\n"
                 f"Concept: {concept}\n"
-                f"Value: {value:.2f}\n"
+                f"Value: $ {self.money_print(value)}\n"
             )
 
             while True:
@@ -55,8 +55,8 @@ class CheckManager():
             f"Index: {ID}\n"
             "Concept: "
             f"{self.saver.get_column_value('Concept', ID)}\n"
-            "Value: $"
-            f"{self.saver.get_column_value('Value', ID)}\n"
+            "Value: $ "
+            f"{self.money_print(self.saver.get_column_value('Value', ID))}\n"
         )
 
         while True:
